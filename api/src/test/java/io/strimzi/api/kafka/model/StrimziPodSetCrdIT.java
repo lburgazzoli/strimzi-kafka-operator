@@ -4,18 +4,19 @@
  */
 package io.strimzi.api.kafka.model;
 
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import io.fabric8.kubernetes.api.model.LabelSelectorBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.strimzi.api.kafka.Crds;
 import io.strimzi.test.TestUtils;
 import io.strimzi.test.k8s.exceptions.KubeClusterException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -69,7 +70,7 @@ public class StrimziPodSetCrdIT extends AbstractCrdIT {
     @BeforeAll
     void setupEnvironment() throws InterruptedException {
         cluster.createCustomResources(TestUtils.CRD_STRIMZI_POD_SET);
-        cluster.waitForCustomResourceDefinition("strimzipodsets.core.strimzi.io");
+        cluster.waitForCustomResourceDefinition("strimzipodsets." + Constants.RESOURCE_CORE_GROUP_NAME);
         cluster.createNamespace(NAMESPACE);
     }
 

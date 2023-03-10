@@ -4,20 +4,22 @@
  */
 package io.strimzi.operator.common.model;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.Level;
+import org.junit.jupiter.api.Test;
+
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.strimzi.api.kafka.model.Constants;
 import io.strimzi.api.kafka.model.Kafka;
 import io.strimzi.api.kafka.model.KafkaBuilder;
 import io.strimzi.api.kafka.model.status.Condition;
 import io.strimzi.operator.common.Reconciliation;
 import io.strimzi.test.TestUtils;
 import io.strimzi.test.logging.TestLogger;
-import org.apache.logging.log4j.Level;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -46,8 +48,8 @@ public class ValidationVisitorTest {
         List<String> warningMessages = warningConditions.stream().map(Condition::getMessage).collect(Collectors.toList());
 
         assertThat(warningMessages, hasItem("Contains object at path spec.kafka with an unknown property: foo"));
-        assertThat(warningMessages, hasItem("In API version kafka.strimzi.io/v1beta2 the enableECDSA property at path spec.kafka.listeners.auth.enableECDSA has been deprecated."));
-        assertThat(warningMessages, hasItem("In API version kafka.strimzi.io/v1beta2 the service property at path spec.kafkaExporter.template.service has been deprecated. " +
+        assertThat(warningMessages, hasItem("In API version " + Constants.RESOURCE_GROUP_NAME + "/v1beta2 the enableECDSA property at path spec.kafka.listeners.auth.enableECDSA has been deprecated."));
+        assertThat(warningMessages, hasItem("In API version " + Constants.RESOURCE_GROUP_NAME + "/v1beta2 the service property at path spec.kafkaExporter.template.service has been deprecated. " +
                 "The Kafka Exporter service has been removed."));
 
         logger.assertLoggedAtLeastOnce(lm -> lm.level() == Level.WARN
@@ -55,10 +57,10 @@ public class ValidationVisitorTest {
                 "Contains object at path spec.kafka with an unknown property: foo"));
         logger.assertLoggedAtLeastOnce(lm -> lm.level() == Level.WARN
                 && lm.formattedMessage().matches("Reconciliation #[0-9]*\\(test\\) kind\\(namespace\\/name\\): " +
-                "In API version kafka.strimzi.io/v1beta2 the enableECDSA property at path spec.kafka.listeners.auth.enableECDSA has been deprecated."));
+                "In API version " + Constants.RESOURCE_GROUP_NAME + "/v1beta2 the enableECDSA property at path spec.kafka.listeners.auth.enableECDSA has been deprecated."));
         logger.assertLoggedAtLeastOnce(lm -> lm.level() == Level.WARN
                 && lm.formattedMessage().matches("Reconciliation #[0-9]*\\(test\\) kind\\(namespace\\/name\\): " +
-                "In API version kafka.strimzi.io/v1beta2 the service property at path spec.kafkaExporter.template.service has been deprecated. " +
+                "In API version " + Constants.RESOURCE_GROUP_NAME + "/v1beta2 the service property at path spec.kafkaExporter.template.service has been deprecated. " +
                 "The Kafka Exporter service has been removed."));
     }
 }

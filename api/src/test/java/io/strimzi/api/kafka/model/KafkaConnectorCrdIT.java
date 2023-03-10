@@ -31,7 +31,7 @@ public class KafkaConnectorCrdIT extends AbstractCrdIT {
     @BeforeAll
     void setupEnvironment() {
         cluster.createCustomResources(TestUtils.CRD_KAFKA_CONNECTOR);
-        cluster.waitForCustomResourceDefinition("kafkaconnectors.kafka.strimzi.io");
+        cluster.waitForCustomResourceDefinition("kafkaconnectors." + Constants.RESOURCE_GROUP_NAME);
         cluster.createNamespace(NAMESPACE);
 
         try {

@@ -133,7 +133,7 @@ public class KafkaBridgeCrdIT extends AbstractCrdIT {
     @BeforeAll
     void setupEnvironment() throws InterruptedException {
         cluster.createCustomResources(TestUtils.CRD_KAFKA_BRIDGE);
-        cluster.waitForCustomResourceDefinition("kafkabridges.kafka.strimzi.io");
+        cluster.waitForCustomResourceDefinition("kafkabridges." + Constants.RESOURCE_GROUP_NAME);
         cluster.createNamespace(NAMESPACE);
 
         try {

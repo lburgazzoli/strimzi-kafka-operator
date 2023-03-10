@@ -4,12 +4,12 @@
  */
 package io.strimzi.api.kafka.model;
 
-import io.strimzi.test.TestUtils;
-import io.strimzi.test.k8s.exceptions.KubeClusterException;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import io.strimzi.test.TestUtils;
+import io.strimzi.test.k8s.exceptions.KubeClusterException;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
@@ -82,7 +82,7 @@ public class KafkaMirrorMaker2CrdIT extends AbstractCrdIT {
         Throwable exception = assertThrows(
             KubeClusterException.class,
             () -> createDeleteCustomResource("KafkaMirrorMaker2-with-tls-auth-with-missing-required.yaml"));
-        
+
         assertMissingRequiredPropertiesMessage(exception.getMessage(), "certificate", "key");
     }
 
@@ -113,7 +113,7 @@ public class KafkaMirrorMaker2CrdIT extends AbstractCrdIT {
     @BeforeAll
     void setupEnvironment() {
         cluster.createCustomResources(TestUtils.CRD_KAFKA_MIRROR_MAKER_2);
-        cluster.waitForCustomResourceDefinition("kafkamirrormaker2s.kafka.strimzi.io");
+        cluster.waitForCustomResourceDefinition("kafkamirrormaker2s." + Constants.RESOURCE_GROUP_NAME);
         cluster.createNamespace(NAMESPACE);
 
         try {

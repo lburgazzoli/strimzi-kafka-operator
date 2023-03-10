@@ -4,11 +4,12 @@
  */
 package io.strimzi.api.kafka.model;
 
-import io.strimzi.test.TestUtils;
-import io.strimzi.test.k8s.exceptions.KubeClusterException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import io.strimzi.test.TestUtils;
+import io.strimzi.test.k8s.exceptions.KubeClusterException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -56,7 +57,7 @@ public class KafkaTopicCrdIT extends AbstractCrdIT {
     @BeforeAll
     void setupEnvironment() {
         cluster.createCustomResources(TestUtils.CRD_TOPIC);
-        cluster.waitForCustomResourceDefinition("kafkatopics.kafka.strimzi.io");
+        cluster.waitForCustomResourceDefinition("kafkatopics." + Constants.RESOURCE_GROUP_NAME);
         cluster.createNamespace(NAMESPACE);
 
         try {
